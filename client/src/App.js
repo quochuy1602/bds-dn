@@ -10,6 +10,7 @@ import Navbar from './components/Navbar';
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
+import Map from './components/Map';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -19,6 +20,8 @@ if(localStorage.jwtToken) {
     store.dispatch(setCurrentUser(decoded));
 
     const currentTime = Date.now() / 1000;
+    console.log("decoded.exp:"+decoded.exp);
+    console.log("currentTime:"+currentTime);
     if(decoded.exp < currentTime) {
         store.dispatch(logoutUser());
         window.location.href = '/login'
@@ -33,6 +36,7 @@ class App extends Component {
                     <div>
                         <Navbar />
                         <Route exact path="/" component={ Home } />
+                        <Route exact path="/map" component={ Map } />
                         <div className="container">
                             <Route exact path="/register" component={ Register } />
                             <Route exact path="/login" component={ Login } />
