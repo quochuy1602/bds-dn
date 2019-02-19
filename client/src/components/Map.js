@@ -8,59 +8,50 @@ import {
     Marker,
     Polygon
 } from "react-google-maps";
+const  listMap =[
+    {
+        "id":1,
+        "name":"NHX",
+        "coordinates":[[[108.24003910952479,16.018882364614225],[108.24604725771815,16.0181811307909],[108.24840760165125,16.015912416247065],[108.24660515719324,16.01195241635069],[108.2445452206698,16.007951086679654],[108.23939537936121,16.00126827487403],[108.23424553805262,16.00419718905034],[108.23347306185633,16.00889986282251],[108.23446011477381,16.0131899247565],[108.24003910952479,16.018882364614225]]],
+        "fillColor":"#0174DF",
+        "strokeColor":"#58ACFA"
 
-const coords = [
-    { lat: 29.047487, lng: 41.023164 },
-    { lat: 29.0459633, lng: 41.0212904 },
-    { lat: 29.0449333, lng: 41.0167573 },
-    { lat: 29.0393543, lng: 41.0106695 },
-    { lat: 29.032917, lng: 41.0049697 },
-    { lat: 29.0226173, lng: 41.0061356 },
-    { lat: 29.0078545, lng: 41.0039334 },
-    { lat: 29.0201283, lng: 40.9765933 },
-    { lat: 29.0319729, lng: 40.9657708 },
-    { lat: 29.0784073, lng: 40.9536501 },
-    { lat: 29.0944576, lng: 40.9493068 },
-    { lat: 29.0975475, lng: 40.9514461 },
-    { lat: 29.1052294, lng: 40.9647986 },
-    { lat: 29.097338, lng: 40.978242 },
-    { lat: 29.0931273, lng: 40.9835914 },
-    { lat: 29.0858746, lng: 40.987738 },
-    { lat: 29.056509, lng: 40.998902 },
-    { lat: 29.061456, lng: 41.008443 },
-    { lat: 29.0617561, lng: 41.0104752 },
-    { lat: 29.0595245, lng: 41.0126772 },
-    { lat: 29.052014, lng: 41.018198 },
-    { lat: 29.047487, lng: 41.023164 }];
-
-const reversedCoords = coords.map( ll => {
-    return { lat: ll.lng, lng: ll.lat }
-});
+    }
+]
 const MyMapComponent = compose(
     withProps({
         googleMapURL:
             "https://maps.googleapis.com/maps/api/js?&v=3.exp&libraries=geometry,drawing,places",
         loadingElement: <div style={{ height: `100%` }} />,
-        containerElement: <div style={{ height: `400px` }} />,
+        containerElement: <div class="" style={{ height: `400px`,width:`600px`, }} />,
         mapElement: <div style={{ height: `100%` }} />
     }),
     withScriptjs,
     withGoogleMap
 )(props => (
-    <GoogleMap defaultZoom={8} defaultCenter={{ lat: 41.0104752 , lng: 29.0617561  }}>
-        <Polygon
-            path={reversedCoords}
-            //key={1}
-            options={{
-                fillColor: "#000",
-                fillOpacity: 0.4,
-                strokeColor: "#000",
-                strokeOpacity: 1,
-                strokeWeight: 1
-            }} />
+    <GoogleMap defaultZoom={15} defaultCenter={{ lat: 16.0181811307909  , lng: 108.24604725771815 }} >
+        {
+            listMap.map((data) => {
+                const arrCoordinates = data.coordinates[0].map((option) => {
+                        return {lat: option[1], lng: option[0]}
+                    })
+                return <Polygon
+                    path={arrCoordinates}
+                    key={data.id}
+                    options={{
+                        fillColor: data.fillColor,
+                        fillOpacity: 0.4,
+                        strokeColor: data.strokeColor,
+                        strokeOpacity: 1,
+                        strokeWeight: 1
+                    }}
+                    onClick={() =>  {console.log(data.name);}}
+                    />
+            })
+        }
+
     </GoogleMap>
 ));
-
 const enhance = _.identity;
 
 const Map = () => [
