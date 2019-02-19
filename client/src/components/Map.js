@@ -8,7 +8,7 @@ import {
     Marker,
     Polygon
 } from "react-google-maps";
-const  listMap =[
+const  listMap = [
     {
         "id":1,
         "name":"NHX",
