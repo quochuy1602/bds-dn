@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import SelectBox from '../libs/SelectBox';
 class FormFilters extends Component {
     constructor() {
         super();
@@ -25,6 +26,15 @@ class FormFilters extends Component {
         return (
             <div >
                 <form onSubmit={ this.handleSubmit }>
+                    <div className="form-group">
+                       <SelectBox/>
+                    </div>
+                    <div className="form-group">
+                        <SelectBox/>
+                    </div>
+                    <div className="form-group">
+                        <SelectBox/>
+                    </div>
                     <div className="form-group">
                         <input
                             type="city"

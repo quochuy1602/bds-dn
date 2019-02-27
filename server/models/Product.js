@@ -1,45 +1,67 @@
 const mongoose = require('mongoose');
-
+var ObjectId = mongoose.Schema.Types.ObjectId;
 const Schema = mongoose.Schema;
 
-const ProductSchema = new Schema({
-    title: {
-        type: String,
-        required: true
+var ProductSchema = new Schema({
+    id:{
+        type:ObjectId
     },
-    summary: {
+    type:{
+        type: String, // 0 dat , 1 nha
+    },
+    street:{
         type: String,
     },
-    description: {
-        type: String,
-    },
-    lat: {
+    direction:{
         type: String
-    },
-    lon: {
-        type: String
-    },
-    address: {
-        type: String,
     },
     price: {
         type: String,
     },
-    status:{
+    stretch:{
+        type: String,
+    },
+    number:{
+        type: String,
+    },
+    blockBy:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Blocks'
+    },
+    areaBy:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Areas'
+    },
+    "geo":{
+        type:Array
+    },
+    active:{
         type:String
     },
-    user:{
+    userId:{
         type:String
     },
-    zone:{
-        type:String
-    },
+    postBy: [{
+        email: String,
+        phone: String,
+        postedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Users'
+        },
+        owner:{
+            type: Number, // 0:cc,1 ncc,2 other
+        },
+        datePost: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     date: {
         type: Date,
         default: Date.now
     }
 });
+// create index
+ProductSchema.index({"number":1,"blockBy":1,"areaBy":1},{unique: true});
 
-const Product = mongoose.model('products', ProductSchema);
-
-module.exports = Product;
+module.exports = mongoose.model("Products", ProductSchema);
