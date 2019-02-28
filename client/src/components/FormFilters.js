@@ -26,9 +26,7 @@ class FormFilters extends Component {
         return (
             <div >
                 <form onSubmit={ this.handleSubmit }>
-                    <div className="form-group">
-                       <SelectBox/>
-                    </div>
+
                     <div className="form-group">
                         <SelectBox/>
                     </div>

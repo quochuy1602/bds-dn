@@ -1,3 +1,4 @@
+/*
 import _ from "lodash";
 import { React,Component} from "react";
 import { compose, withProps } from "recompose";
@@ -84,3 +85,4 @@ class Map extends Component {
     }
 }
 export default enhance(Map);
+*/
