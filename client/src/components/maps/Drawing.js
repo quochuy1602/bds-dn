@@ -40,7 +40,16 @@ const DrawingGoogleMap = withGoogleMap(props => {
             }
             {
                 props.data.map((td, rowIndex) => {
-                    return <Marker position={{ lat: td.geo[1], lng: td.geo[0] }}/>
+                    return(
+
+                        <Marker key={rowIndex} position={{ lat: td.geo[1], lng: td.geo[0] }}
+                            onClick={()=>{ props.showInfo(rowIndex)}}
+                            >
+                            {(props.showInfoIndex == rowIndex ) && <InfoWindow   >
+                                    <div>{td.number}</div>
+                            </InfoWindow>}
+                        </Marker>
+                    )
                 })
 
             }
@@ -55,15 +64,19 @@ export default class Drawing extends Component {
         bounds: null,
         center: {},
         markers: [],
-        zoom:7
+        zoom:7,
+        showInfoIndex:''
     };
 
     handleMapMounted = this.handleMapMounted.bind(this);
     handleBoundsChanged = this.handleBoundsChanged.bind(this);
     handleDragEnd = this.handleDragEnd.bind(this);
     someEventHandler =  this.someEventHandler.bind(this);
+    showInfo =  this.showInfo.bind(this);
 
-
+    showInfo(a){
+        this.setState({showInfoIndex: a });
+    }
     someEventHandler(id,arrCoordinates){
         return (<Polygon key={id.id} paths={arrCoordinates} options={{strokeColor: STROKE_ZONE_COLOR,}}  />)
     }
@@ -116,12 +129,14 @@ export default class Drawing extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-       console.log("nextProps",nextProps)
+       console.log("nextProps",nextProps);
     }
 
     render() {
         return (
             <DrawingGoogleMap
+                showInfoIndex={this.state.showInfoIndex}
+                showInfo={this.showInfo}
                 data={this.props.data}
                 center={this.props.center}
                 onMapMounted={this.handleMapMounted}
@@ -131,6 +146,7 @@ export default class Drawing extends Component {
                 bounds={this.props.bounds}
                 someEventHandler= {this.someEventHandler}
                 markers={this.state.markers}
+                isOpen={this.state.isOpen}
                 zoom={this.props.zoom}
                 containerElement={
                     <div  style={{ height: "400px",width:"600px" }} />
