@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 const styles = {backGround: "#1ade58"}
 class Table extends Component {
+    constructor(props) {
+        super(props);
+    }
+    showInfo(id){
+        this.props.showInfo(id);
+    }
     render() {
         const { listData,showInfoIndex } = this.props;
         console.log("props showInfoIndex",showInfoIndex);
@@ -19,7 +25,7 @@ class Table extends Component {
                     listData.map((v) => {
                         if(showInfoIndex === v._id){
                             return(
-                                <tr style={{background: "#1ade58"}} key={v._id}>
+                                <tr style={{background: "#1ade58"}} key={v._id} onClick={()=>{ this.showInfo(v._id)}} >
                                     <th scope="row">{v.number}</th>
                                     <td>{v.direction}</td>
                                     <td>{v.stretch}</td>
@@ -28,7 +34,7 @@ class Table extends Component {
                             )
                         }else{
                             return(
-                                <tr key={v._id}>
+                                <tr key={v._id} onClick={()=>{ this.showInfo(v._id)}}>
                                     <th scope="row">{v.number}</th>
                                     <td>{v.direction}</td>
                                     <td>{v.stretch}</td>

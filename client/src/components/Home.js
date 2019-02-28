@@ -69,7 +69,7 @@ class Home extends Component {
                             />
                     </div>
                     <div className="col-md-5">
-                        <Table listData={this.state.listData} showInfoIndex={this.state.showInfoIndex} />
+                        <Table listData={this.state.listData} showInfoIndex={this.state.showInfoIndex} showInfo={this.handleShowInfo}/>
                     </div>
                 </div>
             </div>

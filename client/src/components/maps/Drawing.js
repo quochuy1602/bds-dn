@@ -139,7 +139,7 @@ export default class Drawing extends Component {
     render() {
         return (
             <DrawingGoogleMap
-                showInfoIndex={this.state.showInfoIndex}
+                showInfoIndex={this.props.showInfoIndex}
                 showInfo={this.showInfo}
                 data={this.props.data}
                 center={this.props.center}
@@ -150,7 +150,6 @@ export default class Drawing extends Component {
                 bounds={this.props.bounds}
                 someEventHandler= {this.someEventHandler}
                 markers={this.state.markers}
-                isOpen={this.state.isOpen}
                 zoom={this.props.zoom}
                 containerElement={
                     <div  style={{ height: "400px",width:"600px" }} />
