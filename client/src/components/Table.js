@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-
+const styles = {backGround: "#1ade58"}
 class Table extends Component {
     render() {
-        const { listData } = this.props;
+        const { listData,showInfoIndex } = this.props;
+        console.log("props showInfoIndex",showInfoIndex);
         return (
             <table className="table table-striped">
                 <thead>
@@ -16,12 +17,26 @@ class Table extends Component {
                 <tbody>
                 {
                     listData.map((v) => {
-                        return(<tr>
-                            <th scope="row">{v.number}</th>
-                            <td>{v.direction}</td>
-                            <td>{v.stretch}</td>
-                            <td>{v.type}</td>
-                        </tr> )
+                        if(showInfoIndex === v._id){
+                            return(
+                                <tr style={{background: "#1ade58"}} key={v._id}>
+                                    <th scope="row">{v.number}</th>
+                                    <td>{v.direction}</td>
+                                    <td>{v.stretch}</td>
+                                    <td>{v.type}</td>
+                                </tr>
+                            )
+                        }else{
+                            return(
+                                <tr key={v._id}>
+                                    <th scope="row">{v.number}</th>
+                                    <td>{v.direction}</td>
+                                    <td>{v.stretch}</td>
+                                    <td>{v.type}</td>
+                                </tr>
+                            )
+                        }
+
                     })
                 }
 

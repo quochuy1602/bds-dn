@@ -13,12 +13,14 @@ class Home extends Component {
         super(props);
         this.state = {
             center: {lat: 16.0181811307909  , lng: 108.24604725771815},
-            zoom: 6,
+            zoom: 15,
             listData: [],
             isInfoWindow:false,
-            isDrawing:false
+            isDrawing:false,
+            showInfoIndex:''
         };
         this.handleDragEnd = this.handleDragEnd.bind(this);
+        this.handleShowInfo = this.handleShowInfo.bind(this);
     }
     handleDragEnd = (points) => {
         var parameters = {
@@ -26,6 +28,12 @@ class Home extends Component {
         };
         this.props.getLocation(parameters, this.props.history);
         console.log("parameters:",parameters);
+    }
+    handleShowInfo = (id) => {
+        this.setState({
+            showInfoIndex: id
+        });
+        console.log("showInfoIndex:",this.state.showInfoIndex);
     }
     componentWillReceiveProps(nextProps) {
         if(nextProps.listData) {
@@ -40,57 +48,9 @@ class Home extends Component {
         }
     }
     componentDidMount(){
-        var parameters = {
-            coordinates: [[
-                [
-                    [
-                        108.24003910952479,
-                        16.018882364614225
-                    ],
-                    [
-                        108.24604725771815,
-                        16.0181811307909
-                    ],
-                    [
-                        108.24840760165125,
-                        16.015912416247065
-                    ],
-                    [
-                        108.24660515719324,
-                        16.01195241635069
-                    ],
-                    [
-                        108.2445452206698,
-                        16.007951086679654
-                    ],
-                    [
-                        108.23939537936121,
-                        16.00126827487403
-                    ],
-                    [
-                        108.23424553805262,
-                        16.00419718905034
-                    ],
-                    [
-                        108.23347306185633,
-                        16.00889986282251
-                    ],
-                    [
-                        108.23446011477381,
-                        16.0131899247565
-                    ],
-                    [
-                        108.24003910952479,
-                        16.018882364614225
-                    ]
-                ]
-            ]]
-        };
-        this.props.getLocation(parameters, this.props.history);
-        console.log("parameters:",parameters);
+
     }
     render() {
-        const { listData,getLocation } = this.props;
         return (
             <div style={{ padding: '10px'}}>
                 <div className="row">
@@ -104,10 +64,12 @@ class Home extends Component {
                             zoom={this.state.zoom}
                             handleDragEnd={this.handleDragEnd}
                             isDrawing={this.state.isDrawing}
+                            showInfo={this.handleShowInfo}
+                            showInfoIndex={this.state.showInfoIndex}
                             />
                     </div>
                     <div className="col-md-5">
-                        <Table listData={this.state.listData} getLocation={getLocation}/>
+                        <Table listData={this.state.listData} showInfoIndex={this.state.showInfoIndex} />
                     </div>
                 </div>
             </div>
@@ -117,7 +79,6 @@ class Home extends Component {
 function mapStateToProps(state, props) {
     return {
         listData: state.home.listData,
-
     };
 }
 function mapDispatchToProps(dispatch) {

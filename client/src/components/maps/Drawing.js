@@ -42,10 +42,13 @@ const DrawingGoogleMap = withGoogleMap(props => {
                 props.data.map((td, rowIndex) => {
                     return(
 
-                        <Marker key={rowIndex} position={{ lat: td.geo[1], lng: td.geo[0] }}
-                            onClick={()=>{ props.showInfo(rowIndex)}}
+                        <Marker
+                            key={rowIndex}
+                            options={{icon: 'https://i.imgur.com/9G5JOp8.png'}}
+                            position={{ lat: td.geo[1], lng: td.geo[0] }}
+                            onClick={()=>{ props.showInfo(td._id)}}
                             >
-                            {(props.showInfoIndex == rowIndex ) && <InfoWindow   >
+                            {(props.showInfoIndex == td._id ) && <InfoWindow   >
                                     <div>{td.number}</div>
                             </InfoWindow>}
                         </Marker>
@@ -64,7 +67,7 @@ export default class Drawing extends Component {
         bounds: null,
         center: {},
         markers: [],
-        zoom:7,
+        zoom:13,
         showInfoIndex:''
     };
 
@@ -76,6 +79,7 @@ export default class Drawing extends Component {
 
     showInfo(a){
         this.setState({showInfoIndex: a });
+        this.props.showInfo(a);
     }
     someEventHandler(id,arrCoordinates){
         return (<Polygon key={id.id} paths={arrCoordinates} options={{strokeColor: STROKE_ZONE_COLOR,}}  />)
