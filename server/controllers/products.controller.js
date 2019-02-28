@@ -62,7 +62,7 @@ ProductCtrl.prototype.findGeoLocation = function(req,res){
             }
         })
         .exec(function(err, result) {
-            console.log(result.size);
+            //console.log(result.size);
             res.json(result)
 
         });

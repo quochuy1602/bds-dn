@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Map from './Map';
-import FormFilters from './FormFilters';
+
 class Table extends Component {
     render() {
+        const { listData } = this.props;
         return (
             <table className="table table-striped">
                 <thead>
@@ -14,12 +14,17 @@ class Table extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
+                {
+                    listData.map((v) => {
+                        return(<tr>
+                            <th scope="row">{v.number}</th>
+                            <td>{v.direction}</td>
+                            <td>{v.stretch}</td>
+                            <td>{v.type}</td>
+                        </tr> )
+                    })
+                }
+
                 </tbody>
             </table>
         );

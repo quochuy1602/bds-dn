@@ -40,11 +40,7 @@ const DrawingGoogleMap = withGoogleMap(props => {
             }
             {
                 props.data.map((td, rowIndex) => {
-
-                    let arrCoordinates = td.coordinates[0].map((option) => {
-                        return {lat: option[1], lng: option[0]}
-                    })
-                    return <Polygon key={td.id} paths={arrCoordinates} options={{strokeColor: HIGHLIGHT_STROKE_ZONE_COLOR,}}  />
+                    return <Marker position={{ lat: td.geo[1], lng: td.geo[0] }}/>
                 })
 
             }
@@ -120,7 +116,7 @@ export default class Drawing extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-
+       console.log("nextProps",nextProps)
     }
 
     render() {
