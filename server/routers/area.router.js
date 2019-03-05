@@ -4,5 +4,7 @@ var areaCtrl_ = new areaCtrl();
 const router = express.Router();
 router.route('/')
     .get(areaCtrl_.list);
+router.route('/getCity/:city')
+    .get(areaCtrl_.listCity);
 router.route('/save').post(areaCtrl_.save);
 module.exports = router;

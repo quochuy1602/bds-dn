@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { GET_ERRORS, SET_LIST_PRODUCT } from './types';
+import { GET_ERRORS, SET_LIST_PRODUCT,SET_LIST_BLOCK } from './types';
 const apiUrl = 'http://192.168.2.90:5000';
 export const getLocation = (coordinates, history) => dispatch => {
     axios.post(`${apiUrl}/api/products/getLocation`, coordinates)
         .then(res =>{
-            dispatch(setListProduct(res.data));
+            dispatch(setListProduct(res.data.products));
+            dispatch(setListBlock(res.data.blocks));
         })
         .catch(err => {
             dispatch({
@@ -16,6 +17,12 @@ export const getLocation = (coordinates, history) => dispatch => {
 export const setListProduct = data => {
     return {
         type: SET_LIST_PRODUCT,
+        payload: data
+    }
+}
+export const setListBlock = data => {
+    return {
+        type: SET_LIST_BLOCK,
         payload: data
     }
 }

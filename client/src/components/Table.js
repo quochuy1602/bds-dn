@@ -11,14 +11,14 @@ class Table extends Component {
         const { listData,showInfoIndex } = this.props;
         console.log("props showInfoIndex",showInfoIndex);
         return (
-            <table className="table table-striped">
+            <table className="table table-striped table-fixed">
                 <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {

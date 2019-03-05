@@ -27,4 +27,13 @@ AreaCtrl.prototype.list = function(req,res){
 
         });
 }
+AreaCtrl.prototype.listCity = function(req,res){
+    Area.find({"city":req.params.city})
+        .exec(function(err, result) {
+            Area.count().exec(function(err, count) {
+                res.json({"list":result,"count":count})
+            });
+
+        });
+}
 module.exports = AreaCtrl;

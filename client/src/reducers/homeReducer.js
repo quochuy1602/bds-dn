@@ -1,8 +1,9 @@
-import { SET_LIST_PRODUCT } from '../actions/types';
+import { SET_LIST_PRODUCT,SET_LIST_BLOCK } from '../actions/types';
 import isEmpty from '../validation/is-empty';
 
 const initialState = {
-    listData: []
+    listData: [],
+    listBlock:[]
 }
 
 export default function(state = initialState, action ) {
@@ -11,6 +12,11 @@ export default function(state = initialState, action ) {
             return {
                 ...state,
                 listData: action.payload
+            }
+        case SET_LIST_BLOCK:
+            return {
+                ...state,
+                listBlock: action.payload
             }
         default:
             return state;

@@ -17,7 +17,8 @@ class Home extends Component {
             listData: [],
             isInfoWindow:false,
             isDrawing:false,
-            showInfoIndex:''
+            showInfoIndex:'',
+            listBlock:[],
         };
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.handleShowInfo = this.handleShowInfo.bind(this);
@@ -41,6 +42,11 @@ class Home extends Component {
                 listData: nextProps.listData
             });
         }
+        if(nextProps.listBlock) {
+            this.setState({
+                listBlock: nextProps.listBlock
+            });
+        }
         if(nextProps.errors) {
             this.setState({
                 errors: nextProps.errors
@@ -54,11 +60,12 @@ class Home extends Component {
         return (
             <div style={{ padding: '10px'}}>
                 <div className="row">
-                    <div className="col-md-2">
                         <FormFilters/>
-                    </div>
-                    <div className="col-md-5">
+                </div>
+                <div className="row">
+                    <div className="col-md-6">
                         <Drawing
+                            blocks={this.state.listBlock}
                             data={this.state.listData}
                             center={this.state.center}
                             zoom={this.state.zoom}
@@ -68,7 +75,7 @@ class Home extends Component {
                             showInfoIndex={this.state.showInfoIndex}
                             />
                     </div>
-                    <div className="col-md-5">
+                    <div className="col-md-6">
                         <Table listData={this.state.listData} showInfoIndex={this.state.showInfoIndex} showInfo={this.handleShowInfo}/>
                     </div>
                 </div>
@@ -79,6 +86,7 @@ class Home extends Component {
 function mapStateToProps(state, props) {
     return {
         listData: state.home.listData,
+        listBlock: state.home.listBlock,
     };
 }
 function mapDispatchToProps(dispatch) {

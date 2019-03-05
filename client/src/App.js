@@ -11,7 +11,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import Map from './components/Map';
-
+import Area from './components/Area';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 if(localStorage.jwtToken) {
@@ -36,7 +36,7 @@ class App extends Component {
                     <div>
                         <Navbar />
                         <Route exact path="/" component={ Home } />
-                        <Route exact path="/map" component={ Map } />
+                        <Route exact path="/area" component={ Map } />
                         <div className="container">
                             <Route exact path="/register" component={ Register } />
                             <Route exact path="/login" component={ Login } />

@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
+const Promise =  require('bluebird');
 const Product = require('../models/Product');
+const Area = require('../models/Area');
+const Block = require('../models/Block');
 function ProductCtrl() {};
 
 ProductCtrl.prototype.save = function(req,res){
@@ -51,7 +53,9 @@ ProductCtrl.prototype.get = function(req,res){
 }
 ProductCtrl.prototype.findGeoLocation = function(req,res){
     let  coordinates = req.body.coordinates;
-    Product.find({
+    let  zoom = req.body.zoom;
+    Promise.all([
+        Product.find({
             geo:{
                 $geoIntersects: {
                     $geometry: {
@@ -60,11 +64,25 @@ ProductCtrl.prototype.findGeoLocation = function(req,res){
                     }
                 }
             }
-        })
-        .exec(function(err, result) {
-            //console.log(result.size);
-            res.json(result)
+        }).exec(),
+        Block.find({
+            geo:{
+                $geoIntersects: {
+                    $geometry: {
+                        type : "Polygon" ,
+                        coordinates: coordinates
+                    }
+                }
+            }
+        }).exec()
 
-        });
+    ]).spread((listProduct,listBlock)=>{
+        let object ={
+            "products":listProduct,
+            "blocks":listBlock
+        }
+        res.json(object);
+    });
+
 }
 module.exports = ProductCtrl;

@@ -11,6 +11,9 @@ const AreasSchema = new Schema({
     description: {
         type: String,
     },
+    city:{
+        type:String
+    },
     geo:{
         type:{
             type:String,
