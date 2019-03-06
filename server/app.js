@@ -22,6 +22,16 @@ app.use(function(req, res, next) {
     next();
 });
 app.use('/api', routers);
+app.use(function(err, req, res, next) {
+    if(err.name === 'UnauthorizedError') {
+        res.status(err.status).send({err});
+        console.error(err);
+       // logger.error(err);
+        return;
+    }else{
+        next(err);
+    }
+});
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

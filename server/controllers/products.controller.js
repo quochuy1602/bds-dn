@@ -24,8 +24,11 @@ ProductCtrl.prototype.save = function(req,res){
         }).catch(function(err) {
             if(err.code === 11000){
                 res.json({"message" : "Product is exists"})
+            }else{
+                return res.status(400).send({
+                    message: err
+                });
             }
-            res.json({"error" : err})
         });
 }
 
@@ -38,6 +41,11 @@ ProductCtrl.prototype.list = function(req,res){
             /* Product.count().exec(function(err, count) {
                  res.json({"list":result,"count":count})
              });*/
+            if (err) {
+                return res.status(400).send({
+                    message: err
+                });
+            }
             res.json(result)
         });
 }
@@ -46,6 +54,11 @@ ProductCtrl.prototype.get = function(req,res){
     Product.findById(req.params.id)
         .populate('blockBy')
         .exec(function(err, result) {
+            if (err) {
+                return res.status(400).send({
+                    message: err
+                });
+            }
             console.log(result);
             res.json(result)
 

@@ -38,6 +38,12 @@ class FormFilters extends Component {
             listArea:[]
         }
         this.handleSelectCity = this.handleSelectCity.bind(this);
+        this.handleInputName = this.handleInputName.bind(this);
+    }
+    handleInputName(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
     handleSubmit(e) {
         e.preventDefault();
@@ -68,63 +74,54 @@ class FormFilters extends Component {
         }
     }
     render() {
-        const {errors,check} = this.state;
+        const {check} = this.state;
         return (
                 <div class="col-md-12">
                 <div  style={{display:  check ? 'block' : 'none' }}>
                     <form onSubmit={ this.handleSubmit }>
                         <div class="form-row" id="frmFilters">
-                            <div className="form-group col-md-1 col-sm-3">
+                            <div className="form-group col-md-1 col-sm-2">
                                 <label for="inputEmail4">Fleet</label>
                                 <SelectBox listData={this.state.listCity} handleSelect={this.handleSelectCity} isMulti={false}/>
                             </div>
-                            <div className="form-group col-md-2 col-sm-3">
+                            <div className="form-group col-md-2 col-sm-2">
                                 <label for="inputEmail4">Zone</label>
                                 <SelectBox listData={this.state.listArea} isMulti={true} />
                             </div>
-                            <div className="form-group col-md-1 col-sm-3">
+                            <div className="form-group col-md-1 col-sm-2">
                                 <label for="inputEmail4">Packages</label>
                                 <SelectBox listData={this.state.listPackage} />
                             </div>
-                            <div className="form-group col-md-2 col-sm-3">
+                            <div className="form-group col-md-2 col-sm-2">
                                 <label for="inputEmail4">Service</label>
                                 <SelectBox listData={this.state.listService} isMulti={true} />
                             </div>
-                            <div className="form-group col-md-2 col-sm-3">
+                            <div className="form-group col-md-2 col-sm-2">
                                 <label for="inputEmail4">Email</label>
                                 <input
                                     type="city"
                                     placeholder="City"
                                     className={classnames('form-control ', {
-                                'is-invalid': errors.city
-                            })}
+                                    })}
                                     name="city"
                                     value={ this.state.city }
+                                    onChange={ this.handleInputName }
                                     />
                             </div>
-                            <div className="form-group col-md-2 col-sm-3">
+                            <div className="form-group col-md-2 col-sm-2">
                                 <label for="inputEmail4">Email</label>
                                 <input
                                     type="area"
                                     placeholder="Area"
                                     className={classnames('form-control ', {
-                                'is-invalid': errors.area
-                            })}
-                                    name="email"
+                                    })}
+                                    name="area"
                                     value={ this.state.area }
+                                    onChange={ this.handleInputName }
                                     />
 
                             </div>
-                            <div className="form-group col-md-2 col-sm-3">
-                                <label for="inputEmail4">Email</label>
-                                <SelectBox listData={this.state.listCity} isMulti={false}/>
-                            </div>
 
-                            <div className="form-group col-md-2 col-sm-3" style={{marginTop:'32px'}}>
-                                <button type="submit" className="btn btn-primary">
-                                    Filters
-                                </button>
-                            </div>
                         </div>
 
                     </form>

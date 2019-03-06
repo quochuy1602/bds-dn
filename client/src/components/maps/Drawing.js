@@ -6,9 +6,9 @@ import {
     GoogleMap,
     Marker,
     Polygon,
-    InfoWindow,
-    DrawingManager
+    InfoWindow
 } from "react-google-maps";
+import { DrawingManager } from "react-google-maps/lib/components/drawing/DrawingManager";
 import {
     STROKE_ZONE_COLOR,
     HIGHLIGHT_STROKE_ZONE_COLOR
@@ -26,19 +26,23 @@ const DrawingGoogleMap = withGoogleMap(props => {
             onZoomChanged={props.onDragEnd}
             >
             { props.isDrawing &&
-            <DrawingManager
-                defaultDrawingMode={window.google.maps.drawing.OverlayType.POLYGON}
-                defaultOptions={{
-                  drawingControl: false,
-                  drawingControlOptions: {
-                      position: window.google.maps.ControlPosition.TOP_CENTER,
-                      drawingModes: [
-                          window.google.maps.drawing.OverlayType.POLYGON,
-                      ],
-                  },
-                }}
-            />
+                <DrawingManager
+                    defaultDrawingMode={window.google.maps.drawing.OverlayType.POLYGON}
+                    defaultOptions={{
+                      drawingControl: false,
+                      drawingControlOptions: {
+                          position: window.google.maps.ControlPosition.TOP_CENTER,
+                          drawingModes: [
+                              window.google.maps.drawing.OverlayType.POLYGON,
+                          ],
+                      },
+                    }}
+                    onPolygonComplete={(polygon)=>{
+                        props.handleDrawingFinish(polygon)
+                    }}
+                />
             }
+            { props.polygonDraw }
             {
                 props.blocks.map((block, rowIndex) => {
                     var arrCoordinates = block.geo.coordinates[0].map((option) => {
@@ -47,29 +51,39 @@ const DrawingGoogleMap = withGoogleMap(props => {
                     var tt = arrCoordinates[0];
                     if(props.showInfoIndex === block._id) {
                         return (
-                            <Polygon key={block._id} paths={arrCoordinates}
-                                     options={{ strokeColor: HIGHLIGHT_STROKE_ZONE_COLOR,}}
-                                     onClick={()=>{ props.showInfo(block._id)}}>
-                                    {<InfoWindow position={tt}  >
+                            <div>
+                                <Polygon key={block._id} paths={arrCoordinates}
+                                         options={{ strokeColor: HIGHLIGHT_STROKE_ZONE_COLOR,}}
+                                         onClick={()=>{ props.showInfo(block._id)}}>
+                                </Polygon>
+                                <Marker
+                                    key={rowIndex}
+                                    position={tt }
+                                    onClick={()=>{ props.showInfo(block._id)}}
+                                    >
+                                    {(props.showInfoIndex == block._id ) && <InfoWindow   >
                                         <div>{block.name}</div>
                                     </InfoWindow>}
-
-                            </Polygon>
+                                </Marker>
+                            </div>
                         )
                     }else{
                         return (
-                            <Polygon key={block._id} paths={arrCoordinates}
-                                     options={{ strokeColor: STROKE_ZONE_COLOR,}}
-                                     onClick={()=>{ props.showInfo(block._id)}}>
+                            <div>
+                                <Polygon key={block._id} paths={arrCoordinates}
+                                         options={{ strokeColor: STROKE_ZONE_COLOR,}}
+                                         onClick={()=>{ props.showInfo(block._id)}}>
 
-                            </Polygon>
+                                </Polygon>
+
+                            </div>
                         )
                     }
                 })
 
             }
             {
-                props.data.map((td, rowIndex) => {
+                props.data != null && props.data.map((td, rowIndex) => {
                     return(
 
                         <Marker
@@ -174,8 +188,10 @@ export default class Drawing extends Component {
                 onZoomChanged={this.handleDragEnd}
                 bounds={this.props.bounds}
                 someEventHandler= {this.someEventHandler}
-                markers={this.state.markers}
                 zoom={this.props.zoom}
+                isDrawing={this.props.isDrawing}
+                handleDrawingFinish={this.props.handleDrawingFinish}
+                polygonDraw={this.props.polygonDraw}
                 containerElement={
                     <div  style={{ height: "500px",width:"100%" }} />
                 }

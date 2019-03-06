@@ -11,7 +11,6 @@ class SelectBox extends React.Component {
     }
     handleChange = (selectedOption) => {
         this.setState({ selectedOption: selectedOption});
-      //  console.log(`Option selected:`, selectedOption.value);
         this.props.handleSelect(selectedOption.value);
     }
     render() {

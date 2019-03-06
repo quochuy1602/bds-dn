@@ -41,7 +41,11 @@ UserCtrl.prototype.register = function(req,res){
                 if(err) console.error('There was an error', err);
                 else {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
-                        if(err) console.error('There was an error', err);
+                        if (err) {
+                            return res.status(400).send({
+                                message: err
+                            });
+                        }
                         else {
                             newUser.password = hash;
                             newUser
@@ -81,7 +85,7 @@ UserCtrl.prototype.login = function(req,res){
                             avatar: user.avatar
                         }
                         jwt.sign(payload, 'secret', {
-                            expiresIn: 60
+                            expiresIn: 3600
                         }, (err, token) => {
                             if(err) console.error('There is some error in token', err);
                             else {

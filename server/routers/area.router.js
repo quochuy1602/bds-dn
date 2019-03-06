@@ -6,5 +6,8 @@ router.route('/')
     .get(areaCtrl_.list);
 router.route('/getCity/:city')
     .get(areaCtrl_.listCity);
+router.route('/getLocation')
+    .post(areaCtrl_.findGeoLocation);
+
 router.route('/save').post(areaCtrl_.save);
 module.exports = router;
