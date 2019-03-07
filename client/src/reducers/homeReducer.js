@@ -1,9 +1,13 @@
-import { SET_LIST_PRODUCT,SET_LIST_BLOCK } from '../actions/types';
+import { SET_LIST_PRODUCT,SET_LIST_BLOCK,GET_LOCATION } from '../actions/types';
 import isEmpty from '../validation/is-empty';
 
 const initialState = {
     listData: [],
-    listBlock:[]
+    listBlock:[],
+    coords: {
+        latitude: 0,
+        longitude: 0
+    }
 }
 
 export default function(state = initialState, action ) {
@@ -18,6 +22,8 @@ export default function(state = initialState, action ) {
                 ...state,
                 listBlock: action.payload
             }
+        case GET_LOCATION:
+            return action.payload;
         default:
             return state;
     }

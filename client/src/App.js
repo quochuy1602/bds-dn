@@ -11,7 +11,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
 import Area from './components/Area';
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 if(localStorage.jwtToken) {
     setAuthToken(localStorage.jwtToken);
     const decoded = jwt_decode(localStorage.jwtToken);

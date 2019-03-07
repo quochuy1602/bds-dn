@@ -7,7 +7,7 @@ import compose from 'recompose/compose';
 import SelectBox from '../libs/SelectBox';
 import { getListArea } from '../actions/area';
 const optionsCity = [
-    { value: 'danang', label: 'Ðà Nẵng' },
+    { value: 'danang', label: 'Ðà Nẵng' , "geo":{}},
     { value: 'quangnam', label: 'Quảng Nam' },
     { value: 'hue', label: 'Huế' },
     { value: 'hanoi', label: 'Hà Nội' },
@@ -39,20 +39,14 @@ class FormFilters extends Component {
         }
         this.handleSelectCity = this.handleSelectCity.bind(this);
         this.handleInputName = this.handleInputName.bind(this);
+        this.handleSelectArea = this.handleSelectArea.bind(this);
     }
     handleInputName(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-    handleSubmit(e) {
-        e.preventDefault();
-        const user = {
-            city: this.state.city,
-            area: this.state.area,
-        }
 
-    }
     handelShow(){
         this.setState({check:!this.state.check});
     }
@@ -61,6 +55,14 @@ class FormFilters extends Component {
         this.props.getListArea(selectOption, this.props.history);
 
     }
+    handleSelectArea(selectOption){
+        //this.setState({area:selectOption});
+        let obj = this.state.listArea.filter((area) => {
+            return area.value === selectOption;
+        });
+        this.props.handleDragEnd(obj[0].geo.coordinates[0]);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.listArea) {
             this.setState({
@@ -76,40 +78,29 @@ class FormFilters extends Component {
     render() {
         const {check} = this.state;
         return (
-                <div class="col-md-12">
+                <div className="col-md-12">
                 <div  style={{display:  check ? 'block' : 'none' }}>
                     <form onSubmit={ this.handleSubmit }>
-                        <div class="form-row" id="frmFilters">
+                        <div className="form-row" id="frmFilters">
                             <div className="form-group col-md-1 col-sm-2">
-                                <label for="inputEmail4">Fleet</label>
-                                <SelectBox listData={this.state.listCity} handleSelect={this.handleSelectCity} isMulti={false}/>
+                                <label htmlFor="inputEmail4">Fleet</label>
+                                <SelectBox listData={this.state.listCity} handleSelect={this.handleSelectCity} defaultValue={this.state.listCity[0]} isMulti={false} />
                             </div>
                             <div className="form-group col-md-2 col-sm-2">
-                                <label for="inputEmail4">Zone</label>
-                                <SelectBox listData={this.state.listArea} isMulti={true} />
+                                <label htmlFor="inputEmail4">Zone</label>
+                                <SelectBox listData={this.state.listArea} handleSelect={this.handleSelectArea} isMulti={false} />
                             </div>
                             <div className="form-group col-md-1 col-sm-2">
-                                <label for="inputEmail4">Packages</label>
+                                <label htmlFor="inputEmail4">Packages</label>
                                 <SelectBox listData={this.state.listPackage} />
                             </div>
                             <div className="form-group col-md-2 col-sm-2">
-                                <label for="inputEmail4">Service</label>
+                                <label htmlFor="inputEmail4">Service</label>
                                 <SelectBox listData={this.state.listService} isMulti={true} />
                             </div>
+
                             <div className="form-group col-md-2 col-sm-2">
-                                <label for="inputEmail4">Email</label>
-                                <input
-                                    type="city"
-                                    placeholder="City"
-                                    className={classnames('form-control ', {
-                                    })}
-                                    name="city"
-                                    value={ this.state.city }
-                                    onChange={ this.handleInputName }
-                                    />
-                            </div>
-                            <div className="form-group col-md-2 col-sm-2">
-                                <label for="inputEmail4">Email</label>
+                                <label htmlFor="inputEmail4">Price</label>
                                 <input
                                     type="area"
                                     placeholder="Area"

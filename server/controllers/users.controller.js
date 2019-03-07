@@ -85,7 +85,7 @@ UserCtrl.prototype.login = function(req,res){
                             avatar: user.avatar
                         }
                         jwt.sign(payload, 'secret', {
-                            expiresIn: 3600
+                            expiresIn: 360000
                         }, (err, token) => {
                             if(err) console.error('There is some error in token', err);
                             else {

@@ -4,6 +4,16 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const config = require('./config/db');
 const routers = require('./routers/index.router');
+var fs = require('fs');
+var https = require('https');
+/*var key = fs.readFileSync('encryption/private.key');
+var cert = fs.readFileSync( 'encryption/primary.crt' );
+var ca = fs.readFileSync( 'encryption/intermediate.crt' );
+var options = {
+    key: key,
+    cert: cert,
+    ca: ca
+};*/
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
     () => {console.log('Database is connected') },
 err => { console.log('Can not connect to the database'+ err)}
@@ -37,3 +47,5 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`);
 });
+
+

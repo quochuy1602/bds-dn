@@ -16,10 +16,10 @@ var ProductSchema = new Schema({
         type: String
     },
     price: {
-        type: String,
+        type: Number,
     },
     stretch:{
-        type: String,
+        type: Number,
     },
     number:{
         type: String,
@@ -56,6 +56,23 @@ var ProductSchema = new Schema({
             default: Date.now
         }
     }],
+    commentBy:[
+        {
+            email: String,
+            phone: String,
+            postedBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Users'
+            },
+            owner:{
+                type: Number, // 0:cc,1 ncc,2 other
+            },
+            datePost: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
     date: {
         type: Date,
         default: Date.now

@@ -15,6 +15,13 @@ import {
     Drawing,
 } from "./maps/index";
 import { getLocation,add } from '../actions/area';
+const geolocation = navigator.geolocation;
+const location = new Promise((resolve, reject) => {
+    if (!geolocation) {
+        reject(new Error('Not Supported'));
+    }
+
+});
 class Area extends Component {
     constructor(props) {
         super(props);
@@ -23,7 +30,7 @@ class Area extends Component {
             zoom: 15,
             listArea: [],
             isInfoWindow:false,
-            isDrawing:true,
+            isDrawing:false,
             showInfoIndex:'',
             data:[],
             geo:{},
@@ -33,10 +40,20 @@ class Area extends Component {
             strokeColor:"",
             errors:{},
             polygonDraw: null,
+            check:false,
+            edit:''
         };
         this.handleDragEnd = this.handleDragEnd.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAddNew = this.handleAddNew.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+    }
+    handleAddNew(e){
+        this.setState({check:!this.state.check,isDrawing:true});
+    }
+    handleCancel(e){
+        this.setState({check:!this.state.check,isDrawing:false});
     }
     handleInputChange(e) {
         this.setState({
@@ -55,6 +72,11 @@ class Area extends Component {
             showInfoIndex: id
         });
         console.log("showInfoIndex:",this.state.showInfoIndex);
+    }
+    edit =(id) =>{
+        this.setState({
+            edit: id
+        });
     }
     handleSubmit(e) {
         e.preventDefault();
@@ -78,6 +100,7 @@ class Area extends Component {
             strokeColor: this.state.strokeColor,
         }
         this.props.add(area, '');
+        this.setState({check:!this.state.check,isDrawing:false});
     }
     handleDrawingFinish = (polygon) => {
         let polygonDraw =
@@ -98,12 +121,11 @@ class Area extends Component {
         this.polygon = p;
     }
     componentWillReceiveProps(nextProps) {
-        if(nextProps.listArea) {
+        if(nextProps.listArea != this.props.listArea) {
             this.setState({
                 listArea: nextProps.listArea
             });
         }
-
         if(nextProps.errors) {
             this.setState({
                 errors: nextProps.errors
@@ -114,11 +136,19 @@ class Area extends Component {
 
     }
     render() {
+        const {check} = this.state;
         return (
             <div class="col-md-12" style={{ padding: '10px'}}>
-                <div className="row">
+                <div className="row"  style={{display:  !check ? 'block' : 'none' }}>
+                    <div className="form-group col-md-3">
+                        <button type="submit" className="btn btn-primary" onClick={this.handleAddNew}>
+                           Add new
+                        </button>
+                    </div>
+                </div>
+                <div className="row" style={{display:  check ? 'block' : 'none' }}>
                     <form onSubmit={ this.handleSubmit }>
-                        <div className="form-group ">
+                        <div className="form-group col-md-3">
                             <label for="name">Name</label>
                             <input
                                 type="text"
@@ -135,10 +165,15 @@ class Area extends Component {
                                 Save
                             </button>
                         </div>
+                        <div className="form-group">
+                            <button type="button" className="btn btn-default" onClick={this.handleCancel}>
+                                Cancel
+                            </button>
+                        </div>
                     </form>
                 </div>
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-7">
                         <Drawing
                             center={this.state.center}
                             zoom={this.state.zoom}
@@ -150,10 +185,11 @@ class Area extends Component {
                             handleDrawingFinish={this.handleDrawingFinish}
                             drawMode={true}
                             polygonDraw={this.state.polygonDraw}
+                            edit={this.state.edit}
                             />
                     </div>
-                    <div className="col-md-6">
-                        <Table listData={this.state.listArea} showInfoIndex={this.state.showInfoIndex} showInfo={this.handleShowInfo} type='2'/>
+                    <div className="col-md-5">
+                        <Table listData={this.state.listArea} showInfoIndex={this.state.showInfoIndex} showInfo={this.handleShowInfo} type='2' edit={this.edit}/>
                     </div>
                 </div>
             </div>

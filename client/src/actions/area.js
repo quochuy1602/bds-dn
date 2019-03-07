@@ -5,7 +5,7 @@ export const getListArea = (city, history) => dispatch => {
     axios.get(`${apiUrl}/api/areas/getCity/`+city)
         .then(res =>{
             let areas =  res.data.list.map(ls => {
-                return {"value":ls._id,"label":ls.name}
+                return {"value":ls._id,"label":ls.name,"geo":ls.geo}
             })
             dispatch(setListArea(areas));
         })

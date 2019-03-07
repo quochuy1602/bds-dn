@@ -4,6 +4,9 @@ class Table extends Component {
     constructor(props) {
         super(props);
     }
+    edit(id){
+        this.props.edit(id);
+    }
     showInfo(id){
         this.props.showInfo(id);
     }
@@ -29,7 +32,7 @@ class Table extends Component {
                                         onClick={()=>{ this.showInfo(v._id)}}>
                                         <th scope="row">{v.number}</th>
                                         <td>{v.direction}</td>
-                                        <td><Action/></td>
+                                        <td><Action  id={v._id} edit={this.edit}/></td>
                                     </tr>
                                 )
                             } else {
@@ -37,7 +40,7 @@ class Table extends Component {
                                     <tr key={v._id} onClick={()=>{ this.showInfo(v._id)}}>
                                         <th scope="row">{v.number}</th>
                                         <td>{v.direction}</td>
-                                        <td><Action/></td>
+                                        <td><Action id={v._id} edit={this.edit}/></td>
                                     </tr>
                                 )
                             }

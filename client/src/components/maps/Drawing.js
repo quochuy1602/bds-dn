@@ -18,7 +18,7 @@ const DrawingGoogleMap = withGoogleMap(props => {
 
     return (
         <GoogleMap
-            defaultZoom={props.zoom}
+            zoom={props.zoom}
             center={props.center}
             onBoundsChanged={props.onBoundsChanged}
             ref={props.onMapMounted}
@@ -51,10 +51,10 @@ const DrawingGoogleMap = withGoogleMap(props => {
                     var tt = arrCoordinates[0];
                     if(props.showInfoIndex === block._id) {
                         return (
-                            <div>
+                            <div key={block._id}>
                                 <Polygon key={block._id} paths={arrCoordinates}
                                          options={{ strokeColor: HIGHLIGHT_STROKE_ZONE_COLOR,}}
-                                         onClick={()=>{ props.showInfo(block._id)}}>
+                                         onClick={()=>{ props.showInfo(block._id)}} > //editable={true}
                                 </Polygon>
                                 <Marker
                                     key={rowIndex}
@@ -69,14 +69,11 @@ const DrawingGoogleMap = withGoogleMap(props => {
                         )
                     }else{
                         return (
-                            <div>
                                 <Polygon key={block._id} paths={arrCoordinates}
                                          options={{ strokeColor: STROKE_ZONE_COLOR,}}
                                          onClick={()=>{ props.showInfo(block._id)}}>
 
                                 </Polygon>
-
-                            </div>
                         )
                     }
                 })
@@ -189,11 +186,12 @@ export default class Drawing extends Component {
                 bounds={this.props.bounds}
                 someEventHandler= {this.someEventHandler}
                 zoom={this.props.zoom}
+                edit={this.props.edit}
                 isDrawing={this.props.isDrawing}
                 handleDrawingFinish={this.props.handleDrawingFinish}
                 polygonDraw={this.props.polygonDraw}
                 containerElement={
-                    <div  style={{ height: "500px",width:"100%" }} />
+                    <div  style={{ height: "600px",width:"98%",float:"left" }} />
                 }
                 mapElement={
                     <div style={{ height: "100%" }} />

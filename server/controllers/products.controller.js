@@ -66,17 +66,25 @@ ProductCtrl.prototype.get = function(req,res){
 }
 ProductCtrl.prototype.findGeoLocation = function(req,res){
     let  coordinates = req.body.coordinates;
+    let  type = req.body.type; // type = 1 nha,type = 2 dat
+    let  service = req.body.service;
+    let  price = req.body.price;
+    let  stretch = req.body.stretch;
+
     let  zoom = req.body.zoom;
     Promise.all([
         Product.find({
-            geo:{
-                $geoIntersects: {
-                    $geometry: {
-                        type : "Polygon" ,
-                        coordinates: coordinates
+
+                geo:{
+                    $geoIntersects: {
+                        $geometry: {
+                            type : "Polygon" ,
+                            coordinates: coordinates
+                        }
                     }
-                }
-            }
+                 },
+                 active:"ok",
+                 $or:[{}]
         }).exec(),
         Block.find({
             geo:{
